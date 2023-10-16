@@ -1,4 +1,4 @@
-package com.vnet.flutter_nfc_acs;
+package com.vnet.flutter_nfc_acs2;
 
 import android.Manifest;
 import android.app.Activity;
@@ -16,7 +16,7 @@ abstract class BluetoothPermissions implements RequestPermissionsResultListener 
   @Override
   public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
     if (android.os.Build.VERSION.SDK_INT > 30) {
-      afterPermissionsGranted();
+      // afterPermissionsGranted();
 
       return true;
     }else{
