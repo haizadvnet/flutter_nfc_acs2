@@ -28,11 +28,12 @@ class _MyAppState extends State<MyApp> {
               print(snapshot.error);
               return Text('Error');
             } else if (snapshot.hasData) {
+              if(snapshot.data != null){
               return ListView.builder(
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, i) {
-                  final item = snapshot.data[i];
-                  return RaisedButton(
+                  final item = snapshot.data![i];
+                  return ElevatedButton(
                     key: ValueKey(item.address),
                     child: Text((item.name ?? 'No name') + ' -- ' + item.address),
                     onPressed: () => Navigator.push(
@@ -44,6 +45,9 @@ class _MyAppState extends State<MyApp> {
                   );
                 },
               );
+              }else{
+                return SizedBox();
+              }
             } else {
               return Text('No data yet');
             }
@@ -55,7 +59,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class DeviceRoute extends StatefulWidget {
-  const DeviceRoute({Key key, @required this.device}) : super(key: key);
+  const DeviceRoute({Key ?key, required this.device}) : super(key: key);
 
   final AcsDevice device;
 
@@ -65,8 +69,8 @@ class DeviceRoute extends StatefulWidget {
 
 class _DeviceRouteState extends State<DeviceRoute> {
   String connection = FlutterNfcAcs.DISCONNECTED;
-  String error;
-  StreamSubscription _sub;
+  String ?error;
+  StreamSubscription ?_sub;
 
   @override
   void initState() {
@@ -88,7 +92,7 @@ class _DeviceRouteState extends State<DeviceRoute> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            RaisedButton(
+            ElevatedButton(
               child: Text(connection == FlutterNfcAcs.DISCONNECTED ? 'Connect' : 'Disconnect'),
               onPressed: () => connection == FlutterNfcAcs.DISCONNECTED
                   ? FlutterNfcAcs.connect(widget.device.address).catchError((err) => setState(() => error = err))
@@ -110,16 +114,12 @@ class _DeviceRouteState extends State<DeviceRoute> {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
                     return Text('Card: no connection');
-                    break;
                   case ConnectionState.waiting:
                     return Text('Card: waiting');
-                    break;
                   case ConnectionState.active:
                     return Text('Card: ' + snapshot.data.toString());
-                    break;
                   case ConnectionState.done:
                     return Text('Card: done');
-                    break;
                   default:
                     return Text('Card: unknown state');
                 }
@@ -131,16 +131,12 @@ class _DeviceRouteState extends State<DeviceRoute> {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
                     return Text('Connection: nope');
-                    break;
                   case ConnectionState.waiting:
                     return Text('Connection: waiting');
-                    break;
                   case ConnectionState.active:
                     return Text('Connection: ' + snapshot.data.toString());
-                    break;
                   case ConnectionState.done:
                     return Text('Connection: done');
-                    break;
                   default:
                     return Text('Connection: unknown state');
                 }
