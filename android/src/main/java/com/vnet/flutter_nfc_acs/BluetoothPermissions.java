@@ -3,7 +3,7 @@ package com.vnet.flutter_nfc_acs;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-
+import android.os.Build;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -15,6 +15,11 @@ abstract class BluetoothPermissions implements RequestPermissionsResultListener 
 
   @Override
   public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    if (android.os.Build.VERSION.SDK_INT > 30) {
+      afterPermissionsGranted();
+
+      return true;
+    }else{
     if (requestCode == REQUEST_FINE_LOCATION_PERMISSIONS) {
       if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
         afterPermissionsGranted();
@@ -22,7 +27,7 @@ abstract class BluetoothPermissions implements RequestPermissionsResultListener 
         afterPermissionsDenied();
       }
       return true;
-    }
+    }}
 
     return false;
   }
