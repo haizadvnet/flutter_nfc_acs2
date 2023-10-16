@@ -15,9 +15,14 @@ abstract class BluetoothPermissions implements RequestPermissionsResultListener 
 
   @Override
   public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-    if (android.os.Build.VERSION.SDK_INT > 30) {
-      // afterPermissionsGranted();
+    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 
+      int permission = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN);
+      if(permission == PackageManager.PERMISSION_GRANTED){
+        afterPermissionsGranted();
+      }else{
+        afterPermissionsDenied();
+      }
       return true;
     }else{
     if (requestCode == REQUEST_FINE_LOCATION_PERMISSIONS) {
