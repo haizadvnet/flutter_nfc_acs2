@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter_nfc_acs/flutter_nfc_acs.dart';
-import 'package:flutter_nfc_acs/models.dart';
+import 'package:flutter_nfc_acs2/flutter_nfc_acs.dart';
+import 'package:flutter_nfc_acs2/models.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,20 +22,22 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Flutter NFC ACS'),
         ),
         body: StreamBuilder<List<AcsDevice>>(
-          stream: FlutterNfcAcs.devices.map((d) => (d.where((AcsDevice asc) => (asc.name?.indexOf('ACR') ?? -1) != -1)).toList()),
+          stream: FlutterNfcAcs.devices.map((d) =>
+              (d.where((asc) => (asc.name?.indexOf('ACR') ?? -1) != -1))
+                  .toList()),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               print(snapshot.error);
               return Text('Error');
             } else if (snapshot.hasData) {
-              if(snapshot.data != null){
               return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, i) {
                   final item = snapshot.data![i];
                   return ElevatedButton(
                     key: ValueKey(item.address),
-                    child: Text((item.name ?? 'No name') + ' -- ' + item.address),
+                    child:
+                        Text((item.name ?? 'No name') + ' -- ' + item.address),
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -45,9 +47,6 @@ class _MyAppState extends State<MyApp> {
                   );
                 },
               );
-              }else{
-                return SizedBox();
-              }
             } else {
               return Text('No data yet');
             }
@@ -59,9 +58,9 @@ class _MyAppState extends State<MyApp> {
 }
 
 class DeviceRoute extends StatefulWidget {
-  const DeviceRoute({Key ?key, required this.device}) : super(key: key);
+  const DeviceRoute({Key ?key, this.device}) : super(key: key);
 
-  final AcsDevice device;
+  final AcsDevice ?device;
 
   @override
   _DeviceRouteState createState() => _DeviceRouteState();
@@ -76,7 +75,8 @@ class _DeviceRouteState extends State<DeviceRoute> {
   void initState() {
     super.initState();
 
-    FlutterNfcAcs.connect(widget.device.address).catchError((err) => setState(() => error = err));
+    FlutterNfcAcs.connect(widget.device!.address)
+        .catchError((err) => setState(() => error = err));
 
     _sub = FlutterNfcAcs.connectionStatus.listen((status) {
       setState(() {
@@ -93,9 +93,12 @@ class _DeviceRouteState extends State<DeviceRoute> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ElevatedButton(
-              child: Text(connection == FlutterNfcAcs.DISCONNECTED ? 'Connect' : 'Disconnect'),
+              child: Text(connection == FlutterNfcAcs.DISCONNECTED
+                  ? 'Connect'
+                  : 'Disconnect'),
               onPressed: () => connection == FlutterNfcAcs.DISCONNECTED
-                  ? FlutterNfcAcs.connect(widget.device.address).catchError((err) => setState(() => error = err))
+                  ? FlutterNfcAcs.connect(widget.device!.address)
+                      .catchError((err) => setState(() => error = err))
                   : FlutterNfcAcs.disconnect(),
             ),
             Text(widget.device?.name ?? 'No name'),
@@ -131,12 +134,16 @@ class _DeviceRouteState extends State<DeviceRoute> {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
                     return Text('Connection: nope');
+                    break;
                   case ConnectionState.waiting:
                     return Text('Connection: waiting');
+                    break;
                   case ConnectionState.active:
                     return Text('Connection: ' + snapshot.data.toString());
+                    break;
                   case ConnectionState.done:
                     return Text('Connection: done');
+                    break;
                   default:
                     return Text('Connection: unknown state');
                 }

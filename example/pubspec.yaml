@@ -1,6 +1,6 @@
 name: flutter_nfc_acs_example
 description: Demonstrates how to use the flutter_nfc_acs plugin.
-publish_to: 'none'
+publish_to: "none"
 
 environment:
   sdk: ">=2.19.6"
@@ -9,12 +9,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_nfc_acs:
+  flutter_nfc_acs2:
     # When depending on this package from a real application you should use:
     #   flutter_nfc_acs: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints
     # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version. 
+    # the parent directory to use the current plugin's version.
     path: ../
 
   # The following adds the Cupertino Icons font to your application.
@@ -30,7 +30,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

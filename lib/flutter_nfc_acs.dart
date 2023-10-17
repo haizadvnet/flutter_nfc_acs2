@@ -1,19 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_nfc_acs/models.dart';
+import 'package:flutter_nfc_acs2/models.dart';
 
 class FlutterNfcAcs {
   static const MethodChannel _channel =
-      const MethodChannel('flutter.nuvopoint.com/nfc/acs');
+      const MethodChannel('flutter.vnet.com/nfc/acs');
   static const EventChannel _devicesChannel =
-      const EventChannel('flutter.nuvopoint.com/nfc/acs/devices');
+      const EventChannel('flutter.vnet.com/nfc/acs/devices');
   static const EventChannel _deviceBatteryChannel =
-      const EventChannel('flutter.nuvopoint.com/nfc/acs/device/battery');
+      const EventChannel('flutter.vnet.com/nfc/acs/device/battery');
   static const EventChannel _deviceStatusChannel =
-      const EventChannel("flutter.nuvopoint.com/nfc/acs/device/status");
+      const EventChannel("flutter.vnet.com/nfc/acs/device/status");
   static const EventChannel _deviceCardChannel =
-      const EventChannel("flutter.nuvopoint.com/nfc/acs/device/card");
+      const EventChannel("flutter.vnet.com/nfc/acs/device/card");
 
   // _channel's commands
   static const String CONNECT = 'CONNECT';
