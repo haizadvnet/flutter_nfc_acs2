@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_nfc_acs2/models.dart';
+import 'package:flutter_nfc_acs/models.dart';
 
 class FlutterNfcAcs {
   static const MethodChannel _channel =
